@@ -1,0 +1,23 @@
+<p id="members" class="text-center font-bold text-gray-700"></p>
+<ul id="messages" class="p-2 flex flex-col flex-1 h-full max-h-full overflow-y-auto"></ul>
+<section class="bg-gray-200 rounded-lg p-2">
+  {{#if roomAdminToken}}
+  <button id="secret-santa" class="bg-blue-700 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md w-full mb-2">SHUFFLE 🎅🏼</button>
+  {{/if}}
+  <form id="newMessageForm" action="" class=" flex">
+    <input
+      class="bg-white flex-1 mr-4 focus:outline-none focus:shadow-outline border border-gray-300 w-3/4 rounded-md py-2 px-4 appearance-none leading-normal"
+      placeholder="Start typing your message..." id="m" autocomplete="off" />
+    <button class="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md w-1/4 flex-shrink-1">
+      Send
+    </button>
+  </form>
+</section>
+
+
+<script>
+  var ROOM_ID = '{{ roomId }}'
+  var ROOM_ADMIN_TOKEN = '{{ roomAdminToken }}'
+</script>
+<script src="/socket.io/socket.io.js" defer></script>
+<script src="/room.js" defer></script>
