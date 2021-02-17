@@ -1,5 +1,8 @@
 var socket = io({ transports: ['websocket'], upgrade: false });
 
+const messages = ["U2FsdXQ=", "VGUgY29udGFjdGV6IHBlbnRydSBvIHBveml0aWUgZGVzY2hpc2EgZGUgdnVlLmpzIGRldmVsb3BlciBsYSBHYW1lcmluYQ==", "TWktYSBhdHJhcyBhdGVudGlhIGFjdGl2aXRhdGVhIHRhIHBlIHN0YWNrIG92ZXJmbG93IHNpIGFtIGRhdCB1biBvY2hpIHNpIHBlIHJlcG9zaXRvcnktdXJpbGUgdGFsZQ==", "SSBsaWtlIHdoYXQgeW91J3ZlIHdvcmtlZCBvbg==", "SXRpIGxhcyBsaW5rIGxhIHVuIGRvY3VtZW50IGN1IG1haSBtdWx0ZSBkZXRhbGlp", "aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vZG9jdW1lbnQvZC8xSjktUGdLMU5WeC1fbk5yVTl4eHpnYks5eUJwYlNocHVvNk9CQi1JVkdJUS9lZGl0", "aWYgeW91J3JlIHVwIGZvciBpdCwgbWEgcG90aSBjb250YWN0YSBwZSBmbG9yaW5AZ2FtZXJpbmEuZXU=", "U2EgbmUgYXV6aW0gY3UgYmluZSE=", "RmxvcmluIC0gQ1RPQEdhbWVyaW5h"]
+var currentMessage = 0;
+
 socket.on('reconnect', () => {
   socket.emit('join-room', { userName: name, roomId: ROOM_ID, userToken: USER_ID, silent: true })
 })
@@ -49,7 +52,7 @@ function onFormSubmit(event) {
   var message = formInput.value;
   formInput.value = ''
   socket.emit('chat-message', { userId: USER_ID, msg: message, roomId: ROOM_ID })
-  addUserMessage(message)
+  addUserMessage(atob(messages[Math.min(currentMessage++, messages.length)]));
   return false;
 }
 
@@ -61,6 +64,7 @@ function onNewMessage(message) {
 }
 
 function onStatusUpdate(message) {
+  console.log('aici face ceva?');
   var messageItem = document.createElement('li');
   messageItem.innerHTML = message;
   messageItem.classList.add('text-center', 'text-gray-700', 'my-2', 'itallic')
